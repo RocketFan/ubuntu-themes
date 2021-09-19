@@ -1,10 +1,29 @@
+#!/bin/bash
+
 # Main dependencies:
 #   - Alacritty
 #   - polybar-themes (https://github.com/adi1090x/polybar-themes)
 
+# To setup polybar-themes use vs-code search tool:
+#   - monitor: 
+#       - ^monitor =\n -> monitor = ${env:MONITOR:}\n
+#   - network:
+#       - check available network type interfaces with ifconfig
+#       - network-types: wired-network, wireless-network, network
+#       - ^\[module/<network-type>\]\ntype = internal/network\ninterface = <network-type-interface>
+#         -> [module/<network-type>]\ntype = internal/network\ninterface = <your-network-type-interface>
+#   - i3:
+#       - in modules.ini uncomment all lines for [module/i3]
+#       - in config.ini modules section, change workspaces to i3
+#   - battery:
+#       - check avaliable batteries and adapters
+#         using this command ls -l /sys/class/power_supply/
+#       - ^battery = BAT1 -> battery = <your-battery>
+
 # Install some requirements
 sudo apt update
-sudo apt install git picom light snapd python3-pip
+sudo apt install -y git picom mpd \
+    snapd python3-pip compton nitrogen
 
 # Install Alacritty
 sudo snap install --classic alacritty
@@ -33,36 +52,39 @@ cd ../..
 rm -rf polybar
 
 # Install other polybar-themes dependencies:
-sudo apt install rofi calc
+sudo apt install -y rofi calc
 pip3 install pywal
 
-# # Prepare folders and bash
-# shopt -s extglob
+# Prepare folders and bash
+shopt -s extglob
 
-# rm -rf .themes
-# rm -rf .icons
+rm -rf .themes
+rm -rf .icons
 
-# mkdir -p .themes
-# mkdir -p .icons
+mkdir -p .themes
+mkdir -p .icons
 
-# # Download themes
-# cd themes
-# wget https://github.com/dracula/gtk/archive/master.zip
-# unzip *.zip -d dracula-gtk
-# rm -rf *.zip
+# Download themes
+cd .themes
+wget https://github.com/dracula/gtk/archive/master.zip
+unzip *.zip -d dracula-gtk
+rm -rf *.zip
 
-# cd ../icons
-# wget https://github.com/dracula/gtk/files/5214870/Dracula.zip
-# unzip *.zip -d dracula-gtk-icons
-# rm -rf *.zip
+cd ../.icons
+wget https://github.com/dracula/gtk/files/5214870/Dracula.zip
+unzip *.zip -d dracula-gtk-icons
+rm -rf *.zip
 
-# # Replace config and theme files
-# cd ..
-# cp -r .@(!(.|git|gitignore|)) ~/
+# Download polybar-themes
+cd ..
+git clone https://github.com/adi1090x/polybar-themes.git
 
-# # Activating gtk theme
-# gsettings set org.gnome.desktop.interface gtk-theme "dracula-gtk"
-# gsettings set org.gnome.desktop.wm.preferences theme "dracula-gtk"
+# Replace config and theme files
+cp -r .@(!(.|git|gitignore|)) ~/
 
-# # Activating gtk icons
-# gsettings set org.gnome.desktop.interface icon-theme "dracula-gtk-icons"
+# Activating gtk theme
+gsettings set org.gnome.desktop.interface gtk-theme "dracula-gtk"
+gsettings set org.gnome.desktop.wm.preferences theme "dracula-gtk"
+
+# Activating gtk icons
+gsettings set org.gnome.desktop.interface icon-theme "dracula-gtk-icons"

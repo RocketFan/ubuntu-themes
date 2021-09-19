@@ -2,7 +2,7 @@
 
 # Setup bash and remove old files
 shopt -s extglob
-rm -rf .@(!(.|git|gitignore|))
+rm -rf .config
 
 # Prepare folders
 mkdir -p .config
