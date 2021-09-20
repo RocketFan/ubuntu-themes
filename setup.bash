@@ -19,6 +19,9 @@
 #       - check avaliable batteries and adapters
 #         using this command ls -l /sys/class/power_supply/
 #       - ^battery = BAT1 -> battery = <your-battery>
+#   - brightness:
+#       - in /sys/class/backlight check card name for your system
+#       - ^card = amdgpu_bl0 -> card = <your-card-name>
 
 # Install some requirements
 sudo apt update
